@@ -35,7 +35,6 @@ class estudiante(persona):
 class empleado():
     def __init__(self, titulo):
         self.titulo = titulo
-        super(empleado, self).__init__()
 
     @property
     def titulo(self):
