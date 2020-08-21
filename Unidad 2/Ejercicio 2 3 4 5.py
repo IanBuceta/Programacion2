@@ -32,9 +32,10 @@ class estudiante(persona):
     def codigo(self, codigo):
         self.__codigo = codigo
 
-class empleado:
+class empleado():
     def __init__(self, titulo):
         self.titulo = titulo
+        super(empleado, self).__init__()
 
     @property
     def titulo(self):
@@ -45,7 +46,9 @@ class empleado:
         self.__titulo = titulo
 
 class profesor(estudiante, empleado):
-    pass
+    def __init__(self, nombre, apellido, codigo, titulo):
+        super(profesor, self).__init__(nombre, apellido, codigo)
+        empleado.__init__(self, titulo)
 
 fulano = persona("fulano", "de tal")
 print("Datos de la persona: " + fulano.nombre + " " + fulano.apellido)
@@ -53,5 +56,5 @@ print("Datos de la persona: " + fulano.nombre + " " + fulano.apellido)
 alumno = estudiante("fulano", "de tal", "a4fd4gf5")
 print("Datos del estudiante: " + alumno.nombre + " " + alumno.apellido + " " + alumno.codigo)
 
-maestro = profesor("bla", "blabla", "a15fsls433")
-print("Datos del estudiante: " + maestro.nombre + " " + maestro.apellido + " "+ maestro.codigo)
+maestro = profesor("bla", "blabla", "a15fsls433", "maestro")
+print("Datos del estudiante: " + maestro.nombre + " " + maestro.apellido + " "+ maestro.codigo + " " + maestro.titulo)
