@@ -1,7 +1,8 @@
 from os import system
+from typing import List
 
 class Moneda:
-    def __init__(self, pais, valor, year):
+    def __init__(self, pais: str, valor: float, year: int):
         self.__pais = pais
         self.__valor = valor
         self.__year = year
@@ -11,15 +12,15 @@ class Moneda:
         return self.__pais
 
     @pais.setter
-    def pais(self, value):
-        self.__year = value
+    def pais(self, value: str):
+        self.__pais = value
 
     @property
     def valor(self):
         return self.__valor
 
     @valor.setter
-    def valor(self, value):
+    def valor(self, value: float):
         self.__valor = value
 
     @property
@@ -27,11 +28,11 @@ class Moneda:
         return self.__year
 
     @year.setter
-    def year(self, value):
+    def year(self, value: int):
         self.__year = value        
 
 class usuario:
-    def __init__(self, monedas):
+    def __init__(self, monedas: List[Moneda]):
         self.__monedas = monedas
 
     @property
