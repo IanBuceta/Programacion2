@@ -23,7 +23,7 @@ def modificarPosN(posicion, elemento, tupla):
 
 tupla = tuple()
 
-opciones = ["1. Agregar al final", "2. Agregar en Pos N", "3. Borrar Elemento", "4. Modificar Pos N", "5. Salir"]
+opciones = ("1. Agregar al final", "2. Agregar en Pos N", "3. Borrar Elemento", "4. Modificar Pos N", "5. Salir")
 continuar = True
 
 while(continuar == True):
