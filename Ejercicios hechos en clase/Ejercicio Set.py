@@ -31,6 +31,7 @@ class Moneda:
     def year(self, value: int):
         self.__year = value        
 
+
 class usuario:
     def __init__(self, monedas: List[Moneda]):
         self.__monedas = monedas
@@ -62,11 +63,8 @@ class usuario:
 
 
 system("cls")
-moneda1 = Moneda("Argentina", 1600, 1930)
-moneda2 = Moneda("Argentina", 100, 2001)
-moneda3 = Moneda("Chile", 100, 2001)
 
-monedas = [moneda1, moneda2, moneda3]
+monedas = [Moneda("Argentina", 1600, 1930), Moneda("Argentina", 100, 2001), Moneda("Chile", 100, 2001)]
 user = usuario(monedas)
 
 print("Paises: " + str(user.paises))
