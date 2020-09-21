@@ -1,29 +1,34 @@
 from typing import List
 
+from os import system
+
 
 class supermercado:
 
     def __init__(self, nombre):
-        self.__nombre = "Walmart"
-        self.__opciones = {
-            "1. Agregar Cliente": self.agregar_cliente(),
-            "2. Cobrar Cliente": self.cobrar_cliente(),
-            "3. Mostrar Clientes Encolados en una caja": self.mostrar_clientes_encolados_en_caja(),
-            "4. Mostrar Clientes Atendidos en una caja": self.mostrar_clientes_atendidos_en_caja(),
-            "5. Mostrar Todos los Clientes Encolados": self.mostrar_todos_clientes_encolados(),
-            "6. Mostrar Todos los Clientes Atendidos": self.mostrar_todos_clientes_atendidos(),
-            "7. Mostrar Monto Sin Cobrar en una caja": self.mostrar_monto_sin_cobrar_en_caja(),
-            "8. Mostrar Monto Obtenido en una caja": self.mostrar_monto_cobrado_en_caja(),
-            "9. Mostrar Monto Total Sin Cobrar": self.mostrar_monto_total_sin_cobrar(),
-            "10. Mostrar Monto Total Obtenido": self.mostrar_monto_total_cobrado()
-        }
-        self.__cajas = list(List[caja])
+        self.__nombre = nombre
+        self.__cajas = list()
         self.generar_cajas()
+        self.__opciones = {
+            1: ("Agregar Cliente", self.agregar_cliente),
+            2: ("Cobrar Cliente", self.cobrar_cliente),
+            3: ("Mostrar Clientes Encolados en una caja", self.mostrar_clientes_encolados_en_caja),
+            4: ("Mostrar Clientes Atendidos en una caja", self.mostrar_clientes_atendidos_en_caja),
+            5: ("Mostrar Todos los Clientes Encolados", self.mostrar_todos_clientes_encolados),
+            6: ("Mostrar Todos los Clientes Atendidos", self.mostrar_todos_clientes_atendidos),
+            7: ("Mostrar Monto Sin Cobrar en una caja", self.mostrar_monto_sin_cobrar_en_caja),
+            8: ("Mostrar Monto Obtenido en una caja", self.mostrar_monto_cobrado_en_caja),
+            9: ("Mostrar Monto Total Sin Cobrar", self.mostrar_monto_total_sin_cobrar),
+            10: ("Mostrar Monto Total Obtenido", self.mostrar_monto_total_cobrado)
+        }
 
     def menu(self):
-        for opcion in self.__opciones:
-            print(opcion)
-        opcion_elegida = int(input("Seleccione una acción:"))
+        system("cls")
+        for opcionKey, opcionValue in self.__opciones.items():
+            print("{}. {}".format(opcionKey, opcionValue[0]))
+
+        opcion = int(input("Seleccione una opcion: "))
+        self.__opciones[opcion][1]()
 
     def generar_cajas(self):
         cantidad_de_cajas = int(input("Ingrese numero de cajas: "))
@@ -32,10 +37,13 @@ class supermercado:
         for i in range(cantidad_de_cajas):
             cajas.append(caja(i))
 
-        self.__cajas = set(cajas)
+        self.__cajas = list(cajas)
 
     def obtener_caja(self):
-        return self.__cajas[int(input("Ingrese número de la caja"))]
+        for caja in self.__cajas:
+            print(caja.numero)
+
+        return self.__cajas[int(input("Ingrese número de la caja: "))]
 
     def agregar_cliente(self):
         caja = self.obtener_caja()
@@ -49,32 +57,31 @@ class supermercado:
 
     def mostrar_clientes_encolados_en_caja(self):
         caja = self.obtener_caja()
-        print(caja.clientes_atendidos)
-
-# CAMBIAR
-    def mostrar_todos_clientes_encolados(self):
-        caja = self.obtener_caja()
-        print(caja.clientes_atendidos)
+        print(caja.clientes_encolados)
 
     def mostrar_clientes_atendidos_en_caja(self):
         caja = self.obtener_caja()
         print(caja.clientes_atendidos)
 
+    def mostrar_todos_clientes_encolados(self):
+        print(sum(i.clientes_encolados for i in self.__cajas))
+
     def mostrar_todos_clientes_atendidos(self):
-        caja = self.obtener_caja()
-        print(caja.clientes_atendidos)
+        print(sum(i.clientes_atendidos for i in self.__cajas))
 
     def mostrar_monto_sin_cobrar_en_caja(self):
         caja = self.obtener_caja()
+        print(caja.monto_sin_cobrar)
 
     def mostrar_monto_cobrado_en_caja(self):
         caja = self.obtener_caja()
+        print(caja.monto_obtenido)
 
     def mostrar_monto_total_cobrado(self):
-        caja = self.obtener_caja()
+        print(sum(i.monto_obtenido for i in self.__cajas))
 
     def mostrar_monto_total_sin_cobrar(self):
-        caja = self.obtener_caja()
+        print(sum(i.monto_sin_cobrar for i in self.__cajas))
 
 
 class cliente:
@@ -82,28 +89,32 @@ class cliente:
         self.__nombre = nombre
         self.__monto = monto
 
-    @property
+    @ property
     def nombre(self):
         return self.__nombre
 
-    @property
+    @ property
     def monto(self):
         return self.__monto
 
 
 class caja:
 
-    __clientes_encolados = list(List[cliente])
-    __clientes_atendidos = list(List[cliente])
-
     def __init__(self, numero: int):
         self.__numero = numero
+        self.__clientes_encolados = list()
+        self.__clientes_atendidos = list()
 
     def encolar_cliente(self, cliente: cliente):
         self.__clientes_encolados.append(cliente)
 
     def cobrar(self):
-        self.__clientes_atendidos.append(self.__clientes_encolados.pop(0))
+        aCobrar = self.__clientes_encolados.pop(0)
+        self.__clientes_atendidos.append(aCobrar)
+
+    @property
+    def numero(self):
+        return self.__numero
 
     @property
     def clientes_atendidos(self):
@@ -116,3 +127,18 @@ class caja:
     @property
     def monto_obtenido(self):
         return sum(i.monto for i in self.__clientes_atendidos)
+
+    @property
+    def monto_sin_cobrar(self):
+        return sum(i.monto for i in self.__clientes_encolados)
+
+
+try:
+    system("cls")
+    super = supermercado("walmart")
+    while True:
+        super.menu()
+        input()
+except Exception as ex:
+    system("cls")
+    print(ex)
