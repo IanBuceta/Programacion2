@@ -1,4 +1,4 @@
-import random
+# import random
 import os
 
 ARCHIVO_DATOS = "datos.txt"
